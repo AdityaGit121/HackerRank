@@ -1,0 +1,58 @@
+import React, { useState } from "react";
+
+const FeedbackSystem = () => {
+  // Define all aspects the tests expect
+  const aspects = ["Readability", "Performance", "Security", "Documentation", "Testing"];
+
+  // Initialize state for each aspect
+  const [feedback, setFeedback] = useState(
+    aspects.map(() => ({ upvotes: 0, downvotes: 0 }))
+  );
+  const handleUpvote = (index) => {
+    const updated = [...feedback];
+    updated[index].upvotes += 1;
+    setFeedback(updated);
+  };
+
+  const handleDownvote = (index) => {
+    const updated = [...feedback];
+    updated[index].downvotes += 1;
+    setFeedback(updated);
+  };
+
+  return (
+    <div className="my-0 mx-auto text-center w-mx-1200">
+      <div className="flex wrap justify-content-center mt-30 gap-30">
+        {aspects.map((aspect, index) => (
+          <div key={index} className="pa-10 w-300 card">
+            <h2>{aspect}</h2>
+            <div className="flex my-30 mx-0 justify-content-around">
+              <button
+                className="py-10 px-15"
+                data-testid={`upvote-btn-${index}`}
+                onClick={() => handleUpvote(index)}
+              >
+                👍 Upvote
+              </button>
+              <button
+                className="py-10 px-15 danger"
+                data-testid={`downvote-btn-${index}`}
+                onClick={() => handleDownvote(index)}
+              >
+                👎 Downvote
+              </button>
+            </div>
+            <p className="my-10 mx-0" data-testid={`upvote-count-${index}`}>
+              Upvotes: <strong>{feedback[index].upvotes}</strong>
+            </p>
+            <p className="my-10 mx-0" data-testid={`downvote-count-${index}`}>
+              Downvotes: <strong>{feedback[index].downvotes}</strong>
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default FeedbackSystem;
